@@ -50,17 +50,13 @@ fn main() -> io::Result<()> {
                 valid += 1;
             }
             fields.clear();
-            continue;
-        }
-
-        let entries = line.split(' ');
-        for entry in entries {
-            let v: Vec<&str> = entry.split(':').collect();
-            match v.as_slice() {
-                [key, value] => {
+        } else {
+            let entries = line.split(' ');
+            for entry in entries {
+                let v: Vec<&str> = entry.split(':').collect();
+                if let [key, value] = v.as_slice() {
                     fields.insert(key.to_string(), value.to_string());
                 }
-                _ => unreachable!(),
             }
         }
     }
