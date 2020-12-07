@@ -8,8 +8,8 @@ fn main() -> io::Result<()> {
     let mut input = String::new();
     io::stdin().lock().read_to_string(&mut input).unwrap();
     for group in input.split("\n\n") {
-        let mut any_answers: HashSet<char> = HashSet::new();
-        let mut all_answers: HashSet<char> = HashSet::new();
+        let mut any_answers = HashSet::<char>::new();
+        let mut all_answers = HashSet::<char>::new();
 
         for (i, member) in group.split_whitespace().enumerate() {
             let answers: HashSet<char> = member.chars().collect();

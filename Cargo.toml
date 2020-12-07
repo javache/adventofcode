@@ -1,0 +1,38 @@
+[package]
+name = "adventofcode"
+version = "0.1.0"
+authors = ["Pieter De Baets <pieter.debaets@gmail.com>"]
+edition = "2018"
+include = ["*.rs"]
+
+[[bin]]
+name = "day-1"
+path = "day-1.rs"
+
+[[bin]]
+name = "day-2"
+path = "day-2.rs"
+
+[[bin]]
+name = "day-3"
+path = "day-3.rs"
+
+[[bin]]
+name = "day-4"
+path = "day-4.rs"
+
+[[bin]]
+name = "day-5"
+path = "day-5.rs"
+
+[[bin]]
+name = "day-6"
+path = "day-6.rs"
+
+[[bin]]
+name = "day-7"
+path = "day-7.rs"
+
+[dependencies]
+regex = "1"
+lazy_static = "1.4.0"
