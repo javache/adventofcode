@@ -37,21 +37,22 @@ fn main() -> io::Result<()> {
 
         let mut start_idx = 0;
         let mut sum = input[0];
-        for (idx, elem) in input.iter().enumerate().skip(1) {
+        if let Some((min, max)) = input.iter().enumerate().skip(1).find_map(|(idx, elem)| {
             sum += elem;
             while start_idx < idx && sum > *target_sum {
                 sum -= input[start_idx];
                 start_idx += 1;
             }
-
             if sum == *target_sum {
                 let range = &input[start_idx..=idx];
-                if let (Some(min), Some(max)) = (range.iter().min(), range.iter().max()) {
-                    println!("(2) Found sum from {} to {} = {}", min, max, min + max);
-                    break;
-                }
+                range.iter().min().zip(range.iter().max())
+            } else {
+                None
             }
+        }) {
+            println!("(2) Found sum from {} to {} = {}", min, max, min + max);
         }
     }
+
     Ok(())
 }
