@@ -10,103 +10,73 @@ enum Position {
 type State = Vec<Vec<Position>>;
 
 fn _print_state(state: &State) {
-    println!(
-        "{}\n",
-        state
-            .iter()
-            .map(|row| {
-                row.iter()
-                    .map(|pos| match pos {
-                        Position::Floor => '.',
-                        Position::Empty => 'L',
-                        Position::Occupied => '#',
-                    })
-                    .collect()
-            })
-            .collect::<Vec<String>>()
-            .join("\n")
-    );
+    let desc = state
+        .iter()
+        .map(|row| {
+            row.iter()
+                .map(|pos| match pos {
+                    Position::Floor => '.',
+                    Position::Empty => 'L',
+                    Position::Occupied => '#',
+                })
+                .collect()
+        })
+        .collect::<Vec<String>>()
+        .join("\n");
+    println!("{}", desc);
 }
 
-fn is_occupied(state: &State, i: usize, j: usize) -> usize {
-    (state[i][j] == Position::Occupied) as usize
-}
+const NEIGHBOURS: [(i32, i32); 8] = [
+    (-1, -1),
+    (0, -1),
+    (1, -1),
+    (-1, 0),
+    (1, 0),
+    (-1, 1),
+    (0, 1),
+    (1, 1),
+];
 
-fn count_adjacent_occupied(state: &State, pos: (i32, i32)) -> usize {
-    let i = pos.0 as usize;
-    let j = pos.1 as usize;
-    let mut count = 0;
-    if i > 0 {
-        count += if j > 0 {
-            is_occupied(state, i - 1, j - 1)
-        } else {
-            0
-        };
-        count += is_occupied(state, i - 1, j);
-        count += if j < state[i - 1].len() - 1 {
-            is_occupied(state, i - 1, j + 1)
-        } else {
-            0
-        };
-    }
-    count += if j > 0 {
-        is_occupied(state, i, j - 1)
+fn get_seat(state: &State, pos: (i32, i32)) -> Option<Position> {
+    if pos.0 >= 0 && pos.0 < state.len() as i32 && pos.1 >= 0 && pos.1 < state[0].len() as i32 {
+        Some(state[pos.0 as usize][pos.1 as usize])
     } else {
-        0
-    };
-    count += if j < state[i].len() - 1 {
-        is_occupied(state, i, j + 1)
-    } else {
-        0
-    };
-    if i < state.len() - 1 {
-        count += if j > 0 {
-            is_occupied(state, i + 1, j - 1)
-        } else {
-            0
-        };
-        count += is_occupied(state, i + 1, j);
-        count += if j < state[i + 1].len() - 1 {
-            is_occupied(state, i + 1, j + 1)
-        } else {
-            0
-        };
+        None
     }
-    count
 }
 
-fn find_first_seat(state: &State, mut point: (i32, i32), dir: (i32, i32)) -> usize {
+fn count_adjacent_occupied(state: &State, base: (i32, i32)) -> usize {
+    NEIGHBOURS
+        .iter()
+        .map(|dir| {
+            let pos = (base.0 + dir.0, base.1 + dir.1);
+            (get_seat(state, pos) == Some(Position::Occupied)) as usize
+        })
+        .sum()
+}
+
+fn find_first_seat(state: &State, mut pos: (i32, i32), dir: &(i32, i32)) -> usize {
     loop {
-        point = (point.0 + dir.0, point.1 + dir.1);
-        if point.0 < 0
-            || point.0 > (state.len() - 1) as i32
-            || point.1 < 0
-            || point.1 > (state[0].len() - 1) as i32
-        {
-            return 0;
-        }
-        let seat = state[point.0 as usize][point.1 as usize];
-        if seat == Position::Occupied {
-            return 1;
-        } else if seat == Position::Empty {
-            return 0;
+        pos = (pos.0 + dir.0, pos.1 + dir.1);
+        match get_seat(state, pos) {
+            Some(Position::Occupied) => {
+                return 1;
+            }
+            Some(Position::Empty) => {
+                return 0;
+            }
+            Some(Position::Floor) => {}
+            None => {
+                return 0;
+            }
         }
     }
 }
 
 fn count_visible_occupied(state: &State, pos: (i32, i32)) -> usize {
-    (-1..=1)
-        .map(|x| -> usize {
-            (-1..=1)
-                .map(|y| {
-                    if x != 0 || y != 0 {
-                        find_first_seat(state, pos, (x, y))
-                    } else {
-                        0
-                    }
-                })
-                .sum()
-        })
+    NEIGHBOURS
+        .iter()
+        .map(|dir| find_first_seat(state, pos, dir))
         .sum()
 }
 
