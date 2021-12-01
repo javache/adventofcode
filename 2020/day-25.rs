@@ -26,7 +26,11 @@ fn main() -> io::Result<()> {
         let card_loop_size = find_loop_size(card_public);
         let door_loop_size = find_loop_size(door_public);
 
-        println!("(1) Encryption key = {} / {}", transform(door_public, card_loop_size), transform(card_public, door_loop_size));
+        println!(
+            "(1) Encryption key = {} / {}",
+            transform(door_public, card_loop_size),
+            transform(card_public, door_loop_size)
+        );
     }
 
     Ok(())
