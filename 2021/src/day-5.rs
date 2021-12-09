@@ -49,7 +49,7 @@ fn parse_line(input: &str) -> Option<Line> {
     input
         .split(" -> ")
         .filter_map(|p| {
-            if let [x, y] = input.split(',').collect::<Vec<&str>>()[..] {
+            if let [x, y] = p.split(',').collect::<Vec<&str>>()[..] {
                 Some((x.parse().ok()?, y.parse().ok()?))
             } else {
                 None
