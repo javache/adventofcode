@@ -10,7 +10,7 @@ fn run_iterations(initial_state: Vec<usize>, num_iters: usize) -> usize {
         list.push_back(front);
         list[MAX_AGE - 2] += front;
     }
-    list.into_iter().sum()
+    list.iter().sum()
 }
 
 fn main() -> io::Result<()> {
