@@ -5,7 +5,7 @@ type Grid = Vec<Vec<u8>>;
 type Point = (usize, usize);
 
 fn run_iteration(grid: &mut Grid) -> usize {
-    iproduct!(0..grid.len(), 0..grid[0].len()).for_each(|(x,y)| {
+    iproduct!(0..grid.len(), 0..grid[0].len()).for_each(|(x, y)| {
         grid[x][y] += 1;
     });
 
@@ -33,7 +33,7 @@ fn run_iteration(grid: &mut Grid) -> usize {
 }
 
 fn spread_flash(grid: &mut Grid, point: &Point) {
-    grid[point.0][point.1] = 0;        
+    grid[point.0][point.1] = 0;
     iproduct!([-1, 0, 1], [-1, 0, 1]).for_each(|(dx, dy)| {
         let neighbour = (point.0 as i32 + dx, point.1 as i32 + dy);
         if (dx, dy) != (0, 0)
