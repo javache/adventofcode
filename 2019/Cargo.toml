@@ -1,0 +1,21 @@
+[package]
+name = "adventofcode-2019"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+itertools = "0.10.3"
+
+[[bin]]
+name = "day-1"
+path = "src/day-1.rs"
+
+[[bin]]
+name = "day-2"
+path = "src/day-2.rs"
+
+[[bin]]
+name = "day-3"
+path = "src/day-3.rs"
