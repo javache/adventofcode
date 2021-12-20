@@ -28,6 +28,10 @@ fn manhattan_distance(point: &Point) -> i32 {
     point.0.abs() + point.1.abs()
 }
 
+fn wire_distance(point: &Point, grids: &Vec<Grid>) -> u32 {
+    grids[0][point] + grids[1][point]
+}
+
 fn main() -> io::Result<()> {
     let mut grids: Vec<Grid> = vec![];
     io::stdin().lock().lines().flatten().for_each(|line| {
@@ -55,18 +59,18 @@ fn main() -> io::Result<()> {
         .cloned()
         .collect();
 
-    crossings.sort_by(|a, b| manhattan_distance(a).cmp(&manhattan_distance(b)));
+    crossings.sort_by_key(manhattan_distance);
     println!(
         "(1) The closest crossing on the grid is at {:?} = {}",
         crossings[0],
         manhattan_distance(&crossings[0])
     );
 
-    crossings.sort_by(|a, b| (grids[0][a] + grids[1][a]).cmp(&(grids[0][b] + grids[1][b])));
+    crossings.sort_by_key(|point| wire_distance(point, &grids));
     println!(
         "(2) The closest crossing in wire distance is at {:?} = {}",
         crossings[0],
-        grids[0][&crossings[0]] + grids[1][&crossings[0]]
+        wire_distance(&crossings[0], &grids)
     );
 
     Ok(())
