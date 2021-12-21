@@ -1,5 +1,5 @@
-use std::io::{self, Read};
 use std::collections::VecDeque;
+use std::io::{self, Read};
 
 type Image = Vec<Vec<bool>>;
 

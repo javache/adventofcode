@@ -69,25 +69,23 @@ impl SnailNum {
                 match left.explode(depth + 1) {
                     ExplodeResult::Explode(to_add_left, to_add_right) => {
                         right.add_to_leftmost_node(to_add_right);
-                        return ExplodeResult::ExplodeLeft(to_add_left);
+                        ExplodeResult::ExplodeLeft(to_add_left)
                     }
                     ExplodeResult::ExplodeRight(to_add) => {
                         right.add_to_leftmost_node(to_add);
-                        return ExplodeResult::Changed;
+                        ExplodeResult::Changed
                     }
-                    ExplodeResult::None => {
-                        return match right.explode(depth + 1) {
-                            ExplodeResult::Explode(to_add_left, to_add_right) => {
-                                left.add_to_rightmost_node(to_add_left);
-                                return ExplodeResult::ExplodeRight(to_add_right);
-                            }
-                            ExplodeResult::ExplodeLeft(to_add) => {
-                                left.add_to_rightmost_node(to_add);
-                                return ExplodeResult::Changed;
-                            }
-                            result => result,
+                    ExplodeResult::None => match right.explode(depth + 1) {
+                        ExplodeResult::Explode(to_add_left, to_add_right) => {
+                            left.add_to_rightmost_node(to_add_left);
+                            ExplodeResult::ExplodeRight(to_add_right)
                         }
-                    }
+                        ExplodeResult::ExplodeLeft(to_add) => {
+                            left.add_to_rightmost_node(to_add);
+                            ExplodeResult::Changed
+                        }
+                        result => result,
+                    },
                     result => result,
                 }
             }
