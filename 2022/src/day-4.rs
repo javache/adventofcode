@@ -15,7 +15,8 @@ fn main() {
     for line in io::stdin().lock().lines().flatten() {
         let pairs: Vec<(i32, i32)> = line.split(',').map(parse_pair).collect();
         contained_pairs += ((pairs[0].0 >= pairs[1].0 && pairs[0].1 <= pairs[1].1)
-            || (pairs[1].0 >= pairs[0].0 && pairs[1].1 <= pairs[0].1)) as usize;
+            || (pairs[1].0 >= pairs[0].0 && pairs[1].1 <= pairs[0].1))
+            as usize;
         overlapping_pairs += (pairs[0].0 <= pairs[1].1 && pairs[0].1 >= pairs[1].0) as usize;
     }
 
