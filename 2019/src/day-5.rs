@@ -85,7 +85,7 @@ fn main() -> io::Result<()> {
     println!("(1) Running the program with input 1");
     execute_program(&memory, 1);
 
-    println!("(1) Running the program with input 5",);
+    println!("(2) Running the program with input 5");
     execute_program(&memory, 5);
 
     Ok(())
