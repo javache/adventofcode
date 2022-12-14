@@ -7,6 +7,8 @@ fn cmp(left: &serde_json::Value, right: &serde_json::Value) -> Ordering {
     match (left, right) {
         (Value::Number(left), Value::Number(right)) => left.as_i64().cmp(&right.as_i64()),
         (Value::Array(left), Value::Array(right)) => {
+            // TODO: if left contained a copy we could implement Ord on, this would just be
+            // standard list comparison
             for i in 0..(left.len().max(right.len())) {
                 match (left.get(i), right.get(i)) {
                     (Some(l), Some(r)) => {
