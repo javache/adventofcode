@@ -92,3 +92,7 @@ path = "src/day-20.rs"
 [[bin]]
 name = "day-21"
 path = "src/day-21.rs"
+
+[[bin]]
+name = "day-22"
+path = "src/day-22.rs"
